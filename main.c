@@ -149,7 +149,7 @@ void main(void)
     num_burst = 1;
     infire_count = 0;
     bbini_count = 0;
-    laser_on = 0;
+    laser_on = 1;
     send[0] = 0;
     send[1] = 62;
     
@@ -180,10 +180,10 @@ void main(void)
             bbini_count --;
         }
 
-        if (data[1] & 1) { // AUTOキー
+        if (data[1] & 2) { // TRL-D
             laser_on = 0;
         }
-        if (data[1] & 2) { // CLEARキー
+        if (data[1] & 1) { // TRL-U
             laser_on = 1;
         }
         if (SETBB_GetValue() == 0) {
@@ -199,27 +199,26 @@ void main(void)
             if (MAGA_GetValue() == 0) { // 手動給弾ボタン押された
                 maga = 1; // 手動給弾ON
             }
-//            if (data[2] >= 128) { // LT押されている
-                uint8_t trig1 = (trig & (trig ^ trig0));
-                if (trig1 & 32) { // B押されている
-                    // セミオート開始
-                    num_burst = 1;
-                    num_now = 0;
-                    to_in_fire1();
-                }
-                else if (trig1 & 16) { // A押されている
-                    // 3点バースト開始
-                    num_burst = 3;
-                    num_now = 0;
-                    to_in_fire1();
-                }
-                else if (trig1 & 64) { // X押されている
-                    // フルオート開始
-                    num_burst = 0;
-                    num_now = 0;
-                    to_in_fire1();
-                }
-//            }
+            uint8_t trig1 = (trig & (trig ^ trig0));
+
+            if (trig1 & 64) { // X押されている
+                // フルオート開始
+                num_burst = 0;
+                num_now = 0;
+                to_in_fire1();
+            }
+            else if (trig1 & 32) { // B押されている
+                // セミオート開始
+                num_burst = 1;
+                num_now = 0;
+                to_in_fire1();
+            }
+            else if (trig1 & 128) { // A押されている
+                // 3点バースト開始
+                num_burst = 3;
+                num_now = 0;
+                to_in_fire1();
+            }
         }
         else if (in_fire == 1) { // セミオートスイッチがOFFになるまで待つ
             FIRE_SetHigh();
@@ -296,115 +295,6 @@ void main(void)
     }
 }
 
-/*    
-    while (1) {
-        // 入力の読み込み
-        read_semi();
-        trig = 0;
-
-        if (data[1] & 1) {
-            trig = 1;
-        }
-//        if (data[0] & 1) {
-//            if (data[0] & 2) { // トリガーON
-//                trig = 1;
-//            }
-//        }
-
-        if (data[1] & 2) { // TURBOキー
-            laser_on = 0;
-        }
-        if (data[1] & 4) { // CLEARキー
-            laser_on = 1;
-        }
-        if (MAGA_GetValue() == 1) {
-            maga = 0;
-        }
-        else {
-            maga = 1;
-        }
-        if (SETBB_GetValue() == 0) {
-            send[1] = send[2] = 0; // 弾数クリア
-        }
-        show_lazer();
-        
-        if (in_fire) { // 射撃中
-            if (((semi_now == 1) && (semi_now0 == 0)) || (infire_count >= INFIRE_MAX)) { // セミオートスイッチが入った
-                infire_count = 0;
-                num_now ++;
-                send[1] ++; // 弾数+
-                if (send[1] == 0) {
-                    send[2] ++;
-                }
-                force_maga = 1;
-                if (num_burst == 0) { // フルオート
-                    if (trig == 0) { // トリガーが引かれていない
-                        force_maga = 0;
-                        in_fire = 0; // 射撃終了
-                    }
-                }
-                else { // セミまたはバースト
-                    if (num_now >= num_burst) { // 所定数を発射し終えた
-                        force_maga = 0;
-                        in_fire = 0; // 射撃終了
-                    }
-                }
-            }
-            else {
-                infire_count ++;
-            }
-        }
-        else { // 射撃中以外
-            if ((trig == 1) && (trig0 == 0)) { // トリガーが引かれた
-                in_fire = 1; // in_fire フラグを立てる
-                num_now = 0;
-            }
-        }
-
-        if (in_fire) {
-            FIRE_SetHigh();
-        }
-        else {
-            FIRE_SetLow();
-            if (in_fire0 == 1) { // 射撃通電が終了した直後
-                num_maga = FIRE_MAGA;           
-            }
-        }
-        
-        if (force_maga || in_fire) { // 連射中のハイパワー給弾
-            PWM1_DutyCycleSet(1599);
-            PWM1_LoadBufferSet();
-            PWM1_Start();
-        }
-        else if (num_maga > 0) { // 連射終了直後のローパワー給弾
-            num_maga --;           
-            PWM1_DutyCycleSet(1599);
-            PWM1_LoadBufferSet();
-            PWM1_Start();
-        }
-        else if (maga == 1) { // 手動時のローパワー送弾
-            PWM1_DutyCycleSet(500);
-            PWM1_LoadBufferSet();
-            PWM1_Start();
-        }
-        else {
-            PWM1_Stop();
-            PWM1_DutyCycleSet(0);
-            PWM1_LoadBufferSet();
-        }
-        
-        trig0 = trig;
-        in_fire0 = in_fire;
-        semi_now0 = semi_now;
-        __delay_us(500);
-
-//        LCD_i2C_cmd(0x80);
-//        sprintf(buf, "%3u %3u", data[0], data[1]);
-//        LCD_i2C_data(buf);
-    }
-
-*/
-    
 /**
  End of File
 */

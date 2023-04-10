@@ -1986,12 +1986,12 @@
          <value>4</value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="CP" alias="OFF"/>
-         <value>128</value>
-      </entry>
-      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Interrupt Module" name="IVT_NAME"/>
          <value>IVT1</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="System Module" registerAlias="CONFIG1" settingAlias="CP" alias="OFF"/>
+         <value>128</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="INLVLC" settingAlias="INLVLC4"/>
@@ -4436,16 +4436,16 @@
    </tokenMap>
    <generatedFileHashHistoryMap class="java.util.HashMap">
       <entry>
+         <file>mcc_generated_files\interrupt_manager.h</file>
+         <hash>60acd87c159257cbcc7a4f91511c807bb3f8093265bd3c90ea4e3a09795c4cdc</hash>
+      </entry>
+      <entry>
          <file>mcc_generated_files\mcc.h</file>
          <hash>5ed192463c5baed91474ec6d5a3b34441068bd324dc9741811bf1370295c8f8a</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\device_config.h</file>
          <hash>38710bbf617e89ef40eb1d9e383fbff6b5efd5d9eade7aefce70d1bed61ed3ef</hash>
-      </entry>
-      <entry>
-         <file>mcc_generated_files\interrupt_manager.h</file>
-         <hash>60acd87c159257cbcc7a4f91511c807bb3f8093265bd3c90ea4e3a09795c4cdc</hash>
       </entry>
       <entry>
          <file>main.c</file>
@@ -4476,12 +4476,12 @@
          <hash>3e4c28e7cdc27756991265159ec8e052f279912a5f88dc5e6596bc37d1814490</hash>
       </entry>
       <entry>
-         <file>mcc_generated_files\mcc.c</file>
-         <hash>ec40d0b7df3ab6934505020d0542e39787c0ba9ac639c5443a6b39483b6dda49</hash>
-      </entry>
-      <entry>
          <file>mcc_generated_files\interrupt_manager.c</file>
          <hash>15450ec466a3919236edaa988734cfa5f25980810f74ee47e833e725ebcbadb2</hash>
+      </entry>
+      <entry>
+         <file>mcc_generated_files\mcc.c</file>
+         <hash>ec40d0b7df3ab6934505020d0542e39787c0ba9ac639c5443a6b39483b6dda49</hash>
       </entry>
       <entry>
          <file>mcc_generated_files\pwm2.c</file>
