@@ -9,8 +9,8 @@ uint8_t data[SPI_BYTES]; // SPI受信格納先
 uint8_t send[SPI_BYTES]; // SPI送信格納先
     // send[0] 弾数
     // send[1] 62固定
-#define FIRE_MAGA  120 /* 射撃終了直後のマガジン通電回数 */
-#define INFIRE_MAX 500 /* in_fire の最大限度 */
+#define FIRE_MAGA  10 /* 射撃終了直後のマガジン通電回数 */
+#define INFIRE_MAX 300 /* in_fire の最大限度 */
 uint16_t infire_count; // in_fire の現在持続回数
 uint16_t bbini_count; // 発射弾数クリア時のLED点灯回数
 
@@ -267,13 +267,13 @@ void main(void)
         }
 
         if (in_fire) { // 射撃中のハイパワー給弾
-            PWM1_DutyCycleSet(1300);
+            PWM1_DutyCycleSet(900); // MAX 1599
             PWM1_LoadBufferSet();
             PWM1_Start();
         }
         else if (num_maga > 0) { // 連射終了直後の給弾
             num_maga --;           
-            PWM1_DutyCycleSet(700);
+            PWM1_DutyCycleSet(600);
             PWM1_LoadBufferSet();
             PWM1_Start();
         }
